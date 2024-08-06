@@ -1,0 +1,152 @@
+package com.DP;
+public class DaggerWeapon implements Weapon
+{
+public void use()
+{
+System.out.println("Dagger weapon used!");
+}
+}
+package com.DP;
+public class DemoMain {
+public static void main(String[] args)
+{
+// Create game instance
+Game game=Game.getInstance();
+// Set easy level factory and play the game
+GameElementFactory easyLevelFactory=new EasyLevelFactory();
+game.setLevelFactory(easyLevelFactory);
+game.play();
+System.out.println("------------");
+// Set hard level factory and play the game
+GameElementFactory hardLevelFactory=new HardLevelFactory();
+game.setLevelFactory(hardLevelFactory);
+game.play();
+}
+}
+package com.DP;
+public class EasyLevelFactory implements GameElementFactory
+{
+public Enemy createEnemy()
+{
+return new GoblinEnemy();
+}
+public Weapon createWeapon()
+{
+return new DaggerWeapon();
+}
+public PowerUp createPowerUp()
+{
+return new HealthPowerUp();
+}
+}
+package com.DP;
+public interface Weapon
+{
+void use();
+}
+package com.DP;
+public interface Enemy
+{
+void attack();
+}
+package com.DP;
+public class Game
+{
+private static Game instance;
+private GameElementFactory factory;
+private Game() { } // Private constructor to prevent direct instantiation
+public static Game getInstance()
+{
+if(instance==null)
+{
+instance=new Game();
+}
+return instance;
+}
+public void setLevelFactory(GameElementFactory factory)
+{
+this.factory = factory;
+}
+public void play()
+{
+Enemy enemy=factory.createEnemy();
+Weapon weapon=factory.createWeapon();
+PowerUp powerup=factory.createPowerUp();
+enemy.attack();
+weapon.use();
+powerup.activate();
+}
+}
+package com.DP;
+public interface GameElementFactory
+{
+Enemy createEnemy();
+Weapon createWeapon();
+PowerUp createPowerUp();
+}
+package com.DP;
+public class GoblinEnemy implements Enemy
+{
+public void attack()
+{
+System.out.println("Goblin enemy attack!");
+}
+}
+package com.DP;
+public class HardLevelFactory implements GameElementFactory
+{
+public Enemy createEnemy()
+{
+return new OrcEnemy();
+}
+public Weapon createWeapon()
+{
+return new SwordWeapon();
+}
+public PowerUp createPowerUp()
+{
+return new ShieldPowerUp();
+}
+}
+package com.DP;
+public class HealthPowerUp implements PowerUp
+{
+public void activate()
+{
+System.out.println("Health power-up activated");
+}
+}
+package com.DP;
+public class OrcEnemy implements Enemy
+{
+public void attack()
+{
+System.out.println("Orc enemy attack!");
+}
+}
+package com.DP;
+public interface PowerUp
+{
+void activate();
+}
+package com.DP;
+public class ShieldPowerUp implements PowerUp
+{
+public void activate()
+{
+System.out.println("Shield power-up activated!");
+}
+}
+package com.DP;
+public class SwordWeapon implements Weapon
+{
+public void use()
+{
+System.out.println("Sword weapon used!");
+}
+}
+package com.DP;
+public interface Weapon
+{
+void use();
+}
